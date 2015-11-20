@@ -1,4 +1,4 @@
-package com.whinc.widget.lsystem;
+package com.whinc.widget.test;
 
 import org.junit.Test;
 
