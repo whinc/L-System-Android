@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources >
+    <style name="LSystemPaint">
+        <!--<item name="ls_paint_color">#FF0000</item>-->
+        <!--<item name="android:color">#F00</item>-->
+    </style>
+</resources>

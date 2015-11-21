@@ -2,7 +2,9 @@ package com.whinc.widget.lsystem;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PointF;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -39,9 +41,25 @@ public class LSystemView extends View{
 
     private void init(Context context, AttributeSet attrs) {
         mDisplay = new PythagorasTreeDisplay();
-        mDisplay.setDeltaAngle(25);
-        mDisplay.setStep(20);
-        mDisplay.setIterations(5);
+
+        if (attrs != null) {
+            TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LSystemView);
+            String className = typedArray.getString(R.styleable.LSystemView_ls_instance_name);
+            try {
+                mDisplay = (Display) Class.forName(className).newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+                mDisplay = new PythagorasTreeDisplay();
+            }
+            mDisplay.setAngle(typedArray.getFloat(R.styleable.LSystemView_ls_angle, mDisplay.getAngle()));
+            mDisplay.setDeltaAngle(typedArray.getFloat(R.styleable.LSystemView_ls_delta_angle, mDisplay.getDeltaAngle()));
+            mDisplay.setStep(typedArray.getFloat(R.styleable.LSystemView_ls_step, mDisplay.getStep()));
+            mDisplay.setIterations(typedArray.getInteger(R.styleable.LSystemView_ls_iterations, mDisplay.getIterations()));
+            Paint paint = mDisplay.getPaint();
+            paint.setColor(typedArray.getColor(R.styleable.LSystemView_ls_paint_color, paint.getColor()));
+            mDisplay.setPaint(paint);
+            typedArray.recycle();
+        }
     }
 
     @Override
