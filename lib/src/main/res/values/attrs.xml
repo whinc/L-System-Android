@@ -13,7 +13,6 @@
         <attr name="ls_step" format="float"/>
         <attr name="ls_iterations" format="integer"/>
         <attr name="ls_instance_name" format="string"/>
-        <attr name="ls_paint" format="reference"/>
         <attr name="ls_paint_color" format="color"/>
     </declare-styleable>
 </resources>

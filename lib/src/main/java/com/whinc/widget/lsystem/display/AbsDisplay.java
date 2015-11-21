@@ -1,4 +1,4 @@
-package com.whinc.widget.lsystem;
+package com.whinc.widget.lsystem.display;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -19,6 +19,16 @@ public abstract class AbsDisplay implements Display{
     private List<Float> mAngleStack = new LinkedList<>();
     private List<PointF> mPosStack = new LinkedList<>();
     private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Generator mGenerator;
+
+    public AbsDisplay(String axiom, String delimiter, String... rules) {
+        mGenerator = new GeneratorImpl(axiom, delimiter, rules);
+    }
+
+    @Override
+    public Generator getGenerator() {
+        return mGenerator;
+    }
 
     public Paint getPaint() {
         return mPaint;

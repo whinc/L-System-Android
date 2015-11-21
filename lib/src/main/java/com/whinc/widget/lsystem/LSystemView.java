@@ -10,6 +10,8 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.whinc.widget.lsystem.display.Display;
+
 /**
  * Created by Administrator on 2015/11/20.
  */

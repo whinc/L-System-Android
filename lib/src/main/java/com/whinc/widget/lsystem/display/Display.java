@@ -1,4 +1,4 @@
-package com.whinc.widget.lsystem;
+package com.whinc.widget.lsystem.display;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -54,6 +54,11 @@ public interface Display {
      */
     void popPos();
 
+    /**
+     * <p>Get L-System pattern generator</p>
+     * @return
+     */
+    Generator getGenerator();
 
     /**
      * <p>Draw L-System on argument specified canvas.</p>

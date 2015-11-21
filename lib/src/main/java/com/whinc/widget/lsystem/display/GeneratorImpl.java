@@ -1,4 +1,4 @@
-package com.whinc.widget.lsystem;
+package com.whinc.widget.lsystem.display;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by Administrator on 2015/11/20.
  * <p>L-System pattern generator</p>
  */
-public class GeneratorImpl implements Generator {
+class GeneratorImpl implements Generator {
     private final String mAxiom;
     private final Map<Character, String> mRules = new HashMap<>();
     private final List<String> mPatternCache = new ArrayList<>();
