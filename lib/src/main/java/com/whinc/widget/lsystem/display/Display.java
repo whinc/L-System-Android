@@ -8,57 +8,106 @@ import android.graphics.PointF;
  * Created by Administrator on 2015/11/20.
  */
 public interface Display {
-    /* Getter and setter of draw paint */
+    /**
+     * <p>Set the paint used to draw.</p>
+     * @param paint
+     */
     void setPaint(Paint paint);
+
+    /**
+     * <p>Set the paint used to draw.</p>
+     * @return
+     */
     Paint getPaint();
 
-    /* Getter and setter of draw start position */
-    void setPos(PointF pos);
-    PointF getPos();
+    /**
+     * <p>Set start position of drawing.</p>
+     * @param pos
+     */
+    void setPosition(PointF pos);
+    /**
+     * <p>Get start position of drawing.</p>
+     * @return
+     */
+    PointF getPosition();
 
-    /* Draw direction */
+    /**
+     * <p>Set draw direction.</p>
+     * @param degree The degree between current direction and x-axis along the counter clockwise direction.
+     */
+    void setDirection(float degree);
+
+    /**
+     * <p>Get current direction.</p>
+     * @return The degree between current direction and x-axis along the counter clockwise direction.
+     */
+    float getDirection();
+
+    /**
+     * <p>Set rotation angle.</p>
+     * @param degree
+     */
     void setAngle(float degree);
+
+    /**
+     * <p>Get rotation angle.</p>
+     * @return
+     */
     float getAngle();
 
-    void setDeltaAngle(float degree);
-    float getDeltaAngle();
-
-    /* Getter and setter of draw step length which determine how long the line segment */
+    /**
+     * <p>Set step length.</p>
+     * @param length
+     */
     void setStep(float length);
+
+    /**
+     * <p>Get step length.</p>
+     * @return
+     */
     float getStep();
 
-    /* Getter and setter of L-System iterations.*/
+    /**
+     * <p>Set iterations of L-System.</p>
+     * @param iterations
+     */
     void setIterations(int iterations);
+
+    /**
+     * <p>Get iterations of L-System.</p>
+     * @return
+     */
     int getIterations();
 
     /**
-     * <p>Rotate line draw direction</p>
-     * @param degree rotation degree. If degree >= 0 rotate right, else rotate left.
+     * <p>Rotate draw direction based on current direction.</p>
+     * @param deltaDegree If {@code deltaDegree >= 0} rotate current direction along
+     *                    the clockwise direction, otherwise opposite.
      */
-    void rotateAngle(float degree);
+    void rotateDirection(float deltaDegree);
 
     /**
      * <p>Save current draw direction.</p>
      */
-    void pushAngle();
+    void saveDirection();
     /**
      * <p>Restore previous draw direction.</p>
      */
-    void popAngle();
+    void restoreDirection();
     /**
-     * <p>Save current draw start position.</p>
+     * <p>Save current drawing position.</p>
      */
-    void pushPos();
+    void savePos();
     /**
-     * <p>Restore previous draw start position.</p>
+     * <p>Restore previous drawing position.</p>
      */
-    void popPos();
+    void restorePos();
 
     /**
-     * <p>Get L-System pattern generator</p>
+     * <p>Get drawing commands.</p>
      * @return
      */
-    Generator getGenerator();
+    String getPattern();
 
     /**
      * <p>Draw L-System on argument specified canvas.</p>

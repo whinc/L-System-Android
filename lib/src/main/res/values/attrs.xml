@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="LSystemView">
-<!--        <attr name="ls_pos" format="enum">
-            <flag name="left" value="0x0"/>
-            <flag name="right" value="0x10"/>
-            <flag name="top" value="0x100"/>
-            <flag name="bottom" value="0x1000"/>
-            <flag name="center" value="0x10000"/>
-        </attr>-->
+        <attr name="ls_position_x" format="fraction"/>
+        <attr name="ls_position_y" format="fraction"/>
+        <attr name="ls_direction" format="float"/>
         <attr name="ls_angle" format="float"/>
-        <attr name="ls_delta_angle" format="float"/>
         <attr name="ls_step" format="float"/>
         <attr name="ls_iterations" format="integer"/>
         <attr name="ls_instance_name" format="string"/>

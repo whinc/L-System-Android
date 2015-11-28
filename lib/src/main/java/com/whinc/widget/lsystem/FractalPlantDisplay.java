@@ -15,7 +15,7 @@ public class FractalPlantDisplay extends AbsDisplay {
 
     @Override
     public void draw(Canvas canvas) {
-        String pattern = getGenerator().generate(getIterations());
+        String pattern = getPattern();
 
         for (int i = 0; i < pattern.length(); ++i) {
 

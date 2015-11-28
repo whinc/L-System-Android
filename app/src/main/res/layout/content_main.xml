@@ -20,10 +20,12 @@
     <com.whinc.widget.lsystem.LSystemView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:ls_angle="-90"
-        app:ls_step="20"
-        app:ls_delta_angle="35"
+        app:ls_direction="-90"
+        app:ls_step="25"
+        app:ls_angle="30"
         app:ls_iterations="5"
+        app:ls_position_x="50%"
+        app:ls_position_y="70%"
         app:ls_paint_color="#F00"
         app:ls_instance_name="com.whinc.widget.lsystem.PythagorasTreeDisplay"
         />

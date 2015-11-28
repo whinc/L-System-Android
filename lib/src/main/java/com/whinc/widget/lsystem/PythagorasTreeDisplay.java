@@ -10,38 +10,41 @@ import com.whinc.widget.lsystem.display.AbsDisplay;
  */
 public class PythagorasTreeDisplay extends AbsDisplay {
 
-    // 绘图操作与特定的构造参数是对应的，所以这里不能将构造参数暴露给外部修改，而是固定。
     public PythagorasTreeDisplay() {
-        super("0", "->", "1->11", "0->1[0]0");
+        this("0", "->", "1->11", "0->1[0]0");
+    }
+
+    public PythagorasTreeDisplay(String axiom, String delimiter, String... rules) {
+        super(axiom, delimiter, rules);
     }
 
     @Override
     public void draw(Canvas canvas) {
-        String pattern = getGenerator().generate(getIterations());
+        String pattern = getPattern();
         for (int i = 0; i < pattern.length(); ++i) {
             char c = pattern.charAt(i);
-            PointF start = getPos();
+            PointF start = getPosition();
             PointF stop = new PointF(
-                    start.x + getStep() * (float)Math.cos(Math.toRadians((double)getAngle())),
-                    start.y + getStep() * (float)Math.sin(Math.toRadians((double)getAngle()))
+                    start.x + getStep() * (float)Math.cos(Math.toRadians((double) getDirection())),
+                    start.y + getStep() * (float)Math.sin(Math.toRadians((double) getDirection()))
             );
             switch (c) {
                 case '1':
                     canvas.drawLine(start.x, start.y, stop.x, stop.y, getPaint());
-                    setPos(stop);
+                    setPosition(stop);
                     break;
                 case '0':
                     canvas.drawLine(start.x, start.y, stop.x, stop.y, getPaint());
                     break;
                 case '[':
-                    pushAngle();
-                    pushPos();
-                    rotateAngle(-getDeltaAngle());
+                    saveDirection();
+                    savePos();
+                    rotateDirection(-getAngle());
                     break;
                 case ']':
-                    popAngle();
-                    popPos();
-                    rotateAngle(getDeltaAngle());
+                    restoreDirection();
+                    restorePos();
+                    rotateDirection(getAngle());
                     break;
                 default:
                     break;

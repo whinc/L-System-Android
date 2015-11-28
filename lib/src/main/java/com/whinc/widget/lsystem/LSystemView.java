@@ -19,58 +19,60 @@ public class LSystemView extends View{
     public static final String TAG = LSystemView.class.getSimpleName();
 
     private Display mDisplay = null;
+    private float mFractionX = 0.5f;
+    private float mFractionY = 0.5f;
 
     public LSystemView(Context context) {
         super(context);
-        init(context, null);
+        init(context, null, 0, 0);
     }
 
     public LSystemView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs);
+        init(context, attrs, 0, 0);
     }
 
     public LSystemView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs);
+        init(context, attrs, defStyleAttr, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public LSystemView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(context, attrs);
+        init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    private void init(Context context, AttributeSet attrs) {
-        mDisplay = new PythagorasTreeDisplay();
+    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LSystemView);
 
-        if (attrs != null) {
-            TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LSystemView);
-            String className = typedArray.getString(R.styleable.LSystemView_ls_instance_name);
-            try {
-                mDisplay = (Display) Class.forName(className).newInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
-                mDisplay = new PythagorasTreeDisplay();
-            }
-            mDisplay.setAngle(typedArray.getFloat(R.styleable.LSystemView_ls_angle, mDisplay.getAngle()));
-            mDisplay.setDeltaAngle(typedArray.getFloat(R.styleable.LSystemView_ls_delta_angle, mDisplay.getDeltaAngle()));
-            mDisplay.setStep(typedArray.getFloat(R.styleable.LSystemView_ls_step, mDisplay.getStep()));
-            mDisplay.setIterations(typedArray.getInteger(R.styleable.LSystemView_ls_iterations, mDisplay.getIterations()));
-            Paint paint = mDisplay.getPaint();
-            paint.setColor(typedArray.getColor(R.styleable.LSystemView_ls_paint_color, paint.getColor()));
-            mDisplay.setPaint(paint);
-            typedArray.recycle();
+        // Instantiate Display
+        String className = typedArray.getString(R.styleable.LSystemView_ls_instance_name);
+        try {
+            mDisplay = (Display) Class.forName(className).newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+            mDisplay = new PythagorasTreeDisplay();
         }
+
+        mDisplay.setDirection(typedArray.getFloat(R.styleable.LSystemView_ls_direction, mDisplay.getDirection()));
+        mDisplay.setAngle(typedArray.getFloat(R.styleable.LSystemView_ls_angle, mDisplay.getAngle()));
+        mDisplay.setStep(typedArray.getFloat(R.styleable.LSystemView_ls_step, mDisplay.getStep()));
+        mDisplay.setIterations(typedArray.getInteger(R.styleable.LSystemView_ls_iterations, mDisplay.getIterations()));
+        mFractionX = typedArray.getFraction(R.styleable.LSystemView_ls_position_x, 1, 1, mFractionX);
+        mFractionY = typedArray.getFraction(R.styleable.LSystemView_ls_position_y, 1, 1, mFractionY);
+
+        Paint paint = mDisplay.getPaint();
+        paint.setColor(typedArray.getColor(R.styleable.LSystemView_ls_paint_color, paint.getColor()));
+        mDisplay.setPaint(paint);
+
+        typedArray.recycle();
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        int width = MeasureSpec.getSize(widthMeasureSpec);
-        int height = MeasureSpec.getSize(heightMeasureSpec);
-        mDisplay.setPos(new PointF(width / 2, height));
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        mDisplay.setPosition(new PointF(w * mFractionX, h * mFractionY));
     }
 
     @Override
