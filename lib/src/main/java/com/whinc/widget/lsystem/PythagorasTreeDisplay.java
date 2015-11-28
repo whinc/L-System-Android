@@ -23,7 +23,7 @@ public class PythagorasTreeDisplay extends AbsDisplay {
         String pattern = getPattern();
         for (int i = 0; i < pattern.length(); ++i) {
             char c = pattern.charAt(i);
-            PointF start = getPosition();
+            PointF start = getPosition(canvas.getWidth(), canvas.getHeight());
             PointF stop = new PointF(
                     start.x + getStep() * (float)Math.cos(Math.toRadians((double) getDirection())),
                     start.y + getStep() * (float)Math.sin(Math.toRadians((double) getDirection()))
@@ -31,7 +31,7 @@ public class PythagorasTreeDisplay extends AbsDisplay {
             switch (c) {
                 case '1':
                     canvas.drawLine(start.x, start.y, stop.x, stop.y, getPaint());
-                    setPosition(stop);
+                    setPosition(canvas.getWidth(), canvas.getHeight(), stop);
                     break;
                 case '0':
                     canvas.drawLine(start.x, start.y, stop.x, stop.y, getPaint());

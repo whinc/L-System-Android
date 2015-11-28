@@ -27,6 +27,6 @@
         app:ls_position_x="60%"
         app:ls_position_y="90%"
         app:ls_paint_color="#0A0"
-        app:ls_instance_name="com.whinc.widget.lsystem.FractalPlantDisplay"
+        app:ls_instance_name="com.whinc.widget.lsystem.PythagorasTreeDisplay"
         />
 </RelativeLayout>

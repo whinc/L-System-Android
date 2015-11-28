@@ -4,10 +4,12 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2015/11/20.
  */
-public interface Display {
+public interface Display extends Serializable {
     /**
      * <p>Set the paint used to draw.</p>
      * @param paint
@@ -21,15 +23,22 @@ public interface Display {
     Paint getPaint();
 
     /**
+     * Format: fraction
      * <p>Set start position of drawing.</p>
-     * @param pos
+     * @param fractionPos
      */
-    void setPosition(PointF pos);
+    void setFractionPos(PointF fractionPos);
+
+    void setPosition(float w, float h, PointF pos);
+
     /**
+     * Format: fraction
      * <p>Get start position of drawing.</p>
      * @return
      */
-    PointF getPosition();
+    PointF getFractionPos();
+
+    PointF getPosition(float w, float h);
 
     /**
      * <p>Set draw direction.</p>

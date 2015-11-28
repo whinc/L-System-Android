@@ -14,7 +14,7 @@ public abstract class AbsDisplay implements Display{
     private Generator mGenerator;
     private float mDirection = -90.0f;
     private float mAngle = 0.0f;
-    private PointF mPosition = new PointF(0, 0);
+    private PointF mFractionPos = new PointF(0.5f, 0.5f);
     private float mStep = 10.0f;
     private int mIterations = 1;
     private List<Float> mDirectionStack = new LinkedList<>();
@@ -65,13 +65,24 @@ public abstract class AbsDisplay implements Display{
     }
 
     @Override
-    public PointF getPosition() {
-        return mPosition;
+    public PointF getFractionPos() {
+        return mFractionPos;
     }
 
     @Override
-    public void setPosition(PointF pos) {
-        mPosition = pos;
+    public void setFractionPos(PointF fractionPos) {
+        mFractionPos = fractionPos;
+    }
+
+    @Override
+    public void setPosition(float w, float h, PointF pos) {
+        mFractionPos.x = pos.x / w;
+        mFractionPos.y = pos.y / h;
+    }
+
+    @Override
+    public PointF getPosition(float w, float h) {
+        return new PointF(mFractionPos.x * w, mFractionPos.y * h);
     }
 
     @Override
@@ -104,14 +115,14 @@ public abstract class AbsDisplay implements Display{
 
     @Override
     public void savePos() {
-        mPositionStack.add(mPosition);
+        mPositionStack.add(mFractionPos);
     }
 
     public void restorePos() {
         if (mPositionStack.isEmpty()) {
             throw new IllegalStateException("stack is empty! push and pop operation don't match");
         }
-        mPosition = mPositionStack.remove(mPositionStack.size() - 1);
+        mFractionPos = mPositionStack.remove(mPositionStack.size() - 1);
     }
 
     @Override

@@ -19,8 +19,6 @@ public class LSystemView extends View{
     public static final String TAG = LSystemView.class.getSimpleName();
 
     private Display mDisplay = null;
-    private float mFractionX = 0.5f;
-    private float mFractionY = 0.5f;
 
     public LSystemView(Context context) {
         super(context);
@@ -59,20 +57,16 @@ public class LSystemView extends View{
         mDisplay.setAngle(typedArray.getFloat(R.styleable.LSystemView_ls_angle, mDisplay.getAngle()));
         mDisplay.setStep(typedArray.getFloat(R.styleable.LSystemView_ls_step, mDisplay.getStep()));
         mDisplay.setIterations(typedArray.getInteger(R.styleable.LSystemView_ls_iterations, mDisplay.getIterations()));
-        mFractionX = typedArray.getFraction(R.styleable.LSystemView_ls_position_x, 1, 1, mFractionX);
-        mFractionY = typedArray.getFraction(R.styleable.LSystemView_ls_position_y, 1, 1, mFractionY);
+        PointF pos = mDisplay.getFractionPos();
+        pos.x = typedArray.getFraction(R.styleable.LSystemView_ls_position_x, 1, 1, pos.x);
+        pos.y = typedArray.getFraction(R.styleable.LSystemView_ls_position_y, 1, 1, pos.y);
+        mDisplay.setFractionPos(pos);
 
         Paint paint = mDisplay.getPaint();
         paint.setColor(typedArray.getColor(R.styleable.LSystemView_ls_paint_color, paint.getColor()));
         mDisplay.setPaint(paint);
 
         typedArray.recycle();
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        mDisplay.setPosition(new PointF(w * mFractionX, h * mFractionY));
     }
 
     @Override
