@@ -104,7 +104,19 @@ public interface Display {
     void restorePos();
 
     /**
-     * <p>Get drawing commands.</p>
+     * <p>Get L-System pattern generator.</p>
+     * @return
+     */
+    Generator getGenerator();
+
+    /**
+     * <p>Set L-System pattern generator.</p>
+     * @param generator
+     */
+    void setGenerator(Generator generator);
+
+    /**
+     * <p>Get L-System pattern on current situation.</p>
      * @return
      */
     String getPattern();

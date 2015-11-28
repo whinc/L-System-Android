@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Administrator on 2015/11/20.
  */
 public abstract class AbsDisplay implements Display{
-    private final Generator mGenerator;
+    private Generator mGenerator;
     private float mDirection = -90.0f;
     private float mAngle = 0.0f;
     private PointF mPosition = new PointF(0, 0);
@@ -26,7 +26,21 @@ public abstract class AbsDisplay implements Display{
     }
 
     @Override
+    public Generator getGenerator() {
+        return mGenerator;
+    }
+
+    @Override
+    public void setGenerator(Generator generator) {
+        mGenerator = generator;
+    }
+
+    @Override
     public String getPattern() {
+        if (mGenerator == null) {
+            return "";
+        }
+
         return mGenerator.generate(mIterations);
     }
 

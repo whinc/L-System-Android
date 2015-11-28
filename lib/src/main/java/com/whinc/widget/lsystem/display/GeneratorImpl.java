@@ -11,11 +11,13 @@ import java.util.Map;
  */
 class GeneratorImpl implements Generator {
     private final String mAxiom;
+    private final String mDelimiter;
     private final Map<Character, String> mRules = new HashMap<>();
     private final List<String> mPatternCache = new ArrayList<>();
 
     public GeneratorImpl(String axiom, String delimiter, String... rules) {
         mAxiom = axiom.trim();
+        mDelimiter = delimiter.trim();
 
         for (String rule : rules) {
             String[] twoString = rule.split(delimiter);
@@ -71,6 +73,21 @@ class GeneratorImpl implements Generator {
             mPatternCache.add(i, builder.toString());
         }
         return builder.toString();
+    }
+
+    @Override
+    public String getAxiom() {
+        return mAxiom;
+    }
+
+    @Override
+    public String getDelimiter() {
+        return mDelimiter;
+    }
+
+    @Override
+    public Map<Character, String> getRules() {
+        return mRules;
     }
 
     /**
