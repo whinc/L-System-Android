@@ -13,16 +13,34 @@ import java.util.List;
 public abstract class AbsDisplay implements Display{
     private Generator mGenerator;
     private float mDirection = -90.0f;
-    private float mAngle = 0.0f;
+    private float mAngle = 45.0f;
     private PointF mFractionPos = new PointF(0.5f, 0.5f);
     private float mStep = 10.0f;
     private int mIterations = 1;
     private List<Float> mDirectionStack = new LinkedList<>();
     private List<PointF> mPositionStack = new LinkedList<>();
     private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final List mState = new LinkedList();
 
     public AbsDisplay(String axiom, String delimiter, String... rules) {
         mGenerator = new GeneratorImpl(axiom, delimiter, rules);
+    }
+
+    /**
+     * <P>Save state</P>
+     */
+    private void beginDraw() {
+        mState.clear();
+        mState.add(mDirection);
+        mState.add(new PointF(mFractionPos.x, mFractionPos.y));
+    }
+
+    /**
+     * <P>restore state</P>
+     */
+    private void endDraw() {
+        mDirection = (float) mState.remove(0);
+        mFractionPos = (PointF) mState.remove(0);
     }
 
     @Override
@@ -91,8 +109,8 @@ public abstract class AbsDisplay implements Display{
     }
 
     @Override
-    public void setDirection(float angle) {
-        this.mDirection = angle;
+    public void setDirection(float degree) {
+        this.mDirection = degree;
     }
 
     @Override
@@ -115,7 +133,7 @@ public abstract class AbsDisplay implements Display{
 
     @Override
     public void savePos() {
-        mPositionStack.add(mFractionPos);
+        mPositionStack.add(new PointF(mFractionPos.x, mFractionPos.y));
     }
 
     public void restorePos() {
@@ -145,5 +163,17 @@ public abstract class AbsDisplay implements Display{
         mIterations = Math.max(0, iterations);
     }
 
-    public abstract void draw(Canvas canvas);
+    public void draw(Canvas canvas) {
+        beginDraw();
+        drawContent(canvas);
+        endDraw();
+    }
+
+    public abstract void drawContent(Canvas canvas);
+
+    @Override
+    public String toString() {
+        return String.format("direction:%f, angle:%f, pos:(%f, %f), step:%f, iterations:%d",
+                mDirection, mAngle, mFractionPos.x, mFractionPos.y,mStep, mIterations);
+    }
 }

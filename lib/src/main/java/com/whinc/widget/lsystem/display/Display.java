@@ -10,6 +10,7 @@ import java.io.Serializable;
  * Created by Administrator on 2015/11/20.
  */
 public interface Display extends Serializable {
+
     /**
      * <p>Set the paint used to draw.</p>
      * @param paint
