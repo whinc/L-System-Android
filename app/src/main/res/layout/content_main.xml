@@ -27,6 +27,6 @@
         app:ls_position_x="50%"
         app:ls_position_y="50%"
         app:ls_paint_color="#0A0"
-        app:ls_instance_name="com.whinc.widget.lsystem.PythagorasTreeDisplay"
+        app:ls_display_class="com.whinc.widget.lsystem.PythagorasTreeDisplay"
         />
 </RelativeLayout>

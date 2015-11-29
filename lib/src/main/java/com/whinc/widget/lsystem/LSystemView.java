@@ -7,7 +7,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.os.Build;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -48,13 +50,21 @@ public class LSystemView extends View{
 
         // Instantiate Display
         String className = typedArray.getString(R.styleable.LSystemView_ls_display_class);
-        try {
-            mDisplay = (Display) Class.forName(className).newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-            mDisplay = new PythagorasTreeDisplay();
-        }
+            try {
+                if (TextUtils.isEmpty(className)) {
+                    mDisplay = PythagorasTreeDisplay.class.newInstance();
+                } else {
+                    mDisplay = (Display) Class.forName(className).newInstance();
+                }
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
 
+        /* Display properties */
         mDisplay.setDirection(typedArray.getFloat(R.styleable.LSystemView_ls_direction, mDisplay.getDirection()));
         mDisplay.setAngle(typedArray.getFloat(R.styleable.LSystemView_ls_angle, mDisplay.getAngle()));
         mDisplay.setStep(typedArray.getFloat(R.styleable.LSystemView_ls_step, mDisplay.getStep()));
@@ -64,9 +74,66 @@ public class LSystemView extends View{
         pos.y = typedArray.getFraction(R.styleable.LSystemView_ls_position_y, 1, 1, pos.y);
         mDisplay.setFractionPos(pos);
 
+        /* Paint properties */
         mPaint.setColor(typedArray.getColor(R.styleable.LSystemView_ls_paint_color, mPaint.getColor()));
 
         typedArray.recycle();
+    }
+
+    public float getDirection() {
+        return mDisplay.getDirection();
+    }
+
+    public void setDirection(float degree) {
+        mDisplay.setDirection(degree);
+    }
+
+    public float getAngle() {
+        return mDisplay.getAngle();
+    }
+
+    public void setAngle(float degree) {
+        mDisplay.setAngle(degree);
+    }
+
+    public float getStep() {
+        return mDisplay.getStep();
+    }
+
+    public void setStep(float length) {
+        mDisplay.setStep(length);
+    }
+
+    public int getIterations() {
+        return mDisplay.getIterations();
+    }
+
+    public void setIterations(int n) {
+        mDisplay.setIterations(n);
+    }
+
+    public void setFractionPosX(float x) {
+        mDisplay.getFractionPos().x = x;
+    }
+
+    public float getPositionX() {
+        return mDisplay.getFractionPos().x * getMeasuredWidth();
+    }
+
+    public void setFractionPosY(float y) {
+        mDisplay.getFractionPos().y = y;
+    }
+
+    public float getPositionY() {
+        return mDisplay.getFractionPos().y * getMeasuredHeight();
+    }
+
+    public void setColor(int color) {
+        mPaint.setColor(color);
+    }
+
+    public int getColor() {
+        return mPaint.getColor();
     }
 
     public boolean setDisplayClass(@NonNull Class<? extends Display> cls) {
@@ -74,6 +141,7 @@ public class LSystemView extends View{
         try {
             Display display = cls.newInstance();
             mDisplay = display;
+            invalidate();
         } catch (InstantiationException e) {
             e.printStackTrace();
             r = false;

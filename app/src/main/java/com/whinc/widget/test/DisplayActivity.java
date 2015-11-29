@@ -2,6 +2,7 @@ package com.whinc.widget.test;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Menu;
@@ -33,6 +34,10 @@ public class DisplayActivity extends BaseActivity {
 
         mLSystemView = $(R.id.display_lsystem_view);
         mLSystemView.setDisplayClass(mDisplayCls);
+        mLSystemView.setColor(Color.GREEN);
+        mLSystemView.setIterations(4);
+        mLSystemView.setFractionPosX(0.5f);
+        mLSystemView.setFractionPosY(0.5f);
     }
 
     @Override
