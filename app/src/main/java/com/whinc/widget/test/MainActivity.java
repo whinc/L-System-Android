@@ -7,6 +7,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.whinc.widget.lsystem.FractalPlantDisplay;
+import com.whinc.widget.lsystem.PythagorasTreeDisplay;
+import com.whinc.widget.lsystem.display.Display;
+
 public class MainActivity extends BaseActivity {
 
     @Override
@@ -43,7 +47,11 @@ public class MainActivity extends BaseActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_1) {
+            DisplayActivity.startActivity(this, PythagorasTreeDisplay.class);
+            return true;
+        } else if (id == R.id.action_2) {
+            DisplayActivity.startActivity(this, FractalPlantDisplay.class);
             return true;
         }
 

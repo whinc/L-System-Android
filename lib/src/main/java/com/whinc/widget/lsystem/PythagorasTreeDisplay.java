@@ -1,6 +1,7 @@
 package com.whinc.widget.lsystem;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PointF;
 
 import com.whinc.util.Log;
@@ -22,7 +23,7 @@ public class PythagorasTreeDisplay extends AbsDisplay {
     }
 
     @Override
-    public void drawContent(Canvas canvas) {
+    public void drawContent(Canvas canvas, Paint paint) {
         String pattern = getPattern();
         Log.i(TAG, "pattern:" + pattern);
         Log.i(TAG, String.format("canvas size:(%d, %d)", canvas.getWidth(), canvas.getHeight()));
@@ -34,11 +35,11 @@ public class PythagorasTreeDisplay extends AbsDisplay {
             PointF stop = new PointF(start.x + deltaX, start.y + deltaY);
             switch (c) {
                 case '1':
-                    canvas.drawLine(start.x, start.y, stop.x, stop.y, getPaint());
+                    canvas.drawLine(start.x, start.y, stop.x, stop.y, paint);
                     setPosition(canvas.getWidth(), canvas.getHeight(), stop);
                     break;
                 case '0':
-                    canvas.drawLine(start.x, start.y, stop.x, stop.y, getPaint());
+                    canvas.drawLine(start.x, start.y, stop.x, stop.y, paint);
                     break;
                 case '[':
                     saveDirection();

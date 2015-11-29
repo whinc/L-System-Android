@@ -3,6 +3,7 @@ package com.whinc.widget.lsystem.display;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
@@ -10,19 +11,6 @@ import java.io.Serializable;
  * Created by Administrator on 2015/11/20.
  */
 public interface Display extends Serializable {
-
-    /**
-     * <p>Set the paint used to draw.</p>
-     * @param paint
-     */
-    void setPaint(Paint paint);
-
-    /**
-     * <p>Set the paint used to draw.</p>
-     * @return
-     */
-    Paint getPaint();
-
     /**
      * Format: fraction
      * <p>Set start position of drawing.</p>
@@ -135,5 +123,5 @@ public interface Display extends Serializable {
      * <p>Draw L-System on argument specified canvas.</p>
      * @param canvas canvas that will draw on it.
      */
-    void draw(Canvas canvas);
+    void draw(@NonNull Canvas canvas, @NonNull Paint paint);
 }

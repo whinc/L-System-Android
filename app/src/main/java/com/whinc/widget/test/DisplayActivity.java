@@ -1,6 +1,5 @@
 package com.whinc.widget.test;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,12 +13,11 @@ import com.whinc.widget.lsystem.display.Display;
 public class DisplayActivity extends BaseActivity {
     private static final String EXTRA_DISPLAY = "extra_display";
     private LSystemView mLSystemView;
-    private Display mDisplay;
+    private Class<? extends Display> mDisplayCls;
 
-    public static void startActivity(@NonNull Context context, @NonNull Display display) {
-        Intent intent = new Intent();
-        intent.setComponent(new ComponentName(context.getPackageName(), DisplayActivity.class.getName()));
-        intent.putExtra(EXTRA_DISPLAY, display);
+    public static void startActivity(@NonNull Context context, @NonNull Class<? extends Display> displayClass) {
+        Intent intent = new Intent(context, DisplayActivity.class);
+        intent.putExtra(EXTRA_DISPLAY, displayClass);
         context.startActivity(intent);
     }
 
@@ -28,15 +26,13 @@ public class DisplayActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display);
 
-        if (getIntent() == null) {
-            return;
-        }
-        mDisplay = (Display) getIntent().getSerializableExtra(EXTRA_DISPLAY);
-        if (mDisplay == null) {
-            return;
+        if (getIntent() == null
+                || (mDisplayCls = (Class<? extends Display>) getIntent().getSerializableExtra(EXTRA_DISPLAY)) == null) {
+            throw new IllegalArgumentException("Invalid argument");
         }
 
-        initView();
+        mLSystemView = $(R.id.display_lsystem_view);
+        mLSystemView.setDisplayClass(mDisplayCls);
     }
 
     @Override
@@ -54,14 +50,10 @@ public class DisplayActivity extends BaseActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_1) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void initView() {
-        mLSystemView = $(R.id.display_lsystem_view);
     }
 }

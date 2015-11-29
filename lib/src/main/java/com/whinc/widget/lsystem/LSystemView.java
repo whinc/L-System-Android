@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -19,6 +20,7 @@ public class LSystemView extends View{
     public static final String TAG = LSystemView.class.getSimpleName();
 
     private Display mDisplay = null;
+    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     public LSystemView(Context context) {
         super(context);
@@ -45,7 +47,7 @@ public class LSystemView extends View{
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LSystemView);
 
         // Instantiate Display
-        String className = typedArray.getString(R.styleable.LSystemView_ls_instance_name);
+        String className = typedArray.getString(R.styleable.LSystemView_ls_display_class);
         try {
             mDisplay = (Display) Class.forName(className).newInstance();
         } catch (Exception e) {
@@ -62,18 +64,32 @@ public class LSystemView extends View{
         pos.y = typedArray.getFraction(R.styleable.LSystemView_ls_position_y, 1, 1, pos.y);
         mDisplay.setFractionPos(pos);
 
-        Paint paint = mDisplay.getPaint();
-        paint.setColor(typedArray.getColor(R.styleable.LSystemView_ls_paint_color, paint.getColor()));
-        mDisplay.setPaint(paint);
+        mPaint.setColor(typedArray.getColor(R.styleable.LSystemView_ls_paint_color, mPaint.getColor()));
 
         typedArray.recycle();
+    }
+
+    public boolean setDisplayClass(@NonNull Class<? extends Display> cls) {
+        boolean r = true;
+        try {
+            Display display = cls.newInstance();
+            mDisplay = display;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            r = false;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            r = false;
+        }
+
+        return r;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (mDisplay != null) {
-            mDisplay.draw(canvas);
+            mDisplay.draw(canvas, mPaint);
         }
     }
 }

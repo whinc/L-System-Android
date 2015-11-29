@@ -73,16 +73,6 @@ public abstract class AbsDisplay implements Display{
     }
 
     @Override
-    public Paint getPaint() {
-        return mPaint;
-    }
-
-    @Override
-    public void setPaint(Paint paint) {
-        mPaint = paint;
-    }
-
-    @Override
     public PointF getFractionPos() {
         return mFractionPos;
     }
@@ -163,13 +153,13 @@ public abstract class AbsDisplay implements Display{
         mIterations = Math.max(0, iterations);
     }
 
-    public void draw(Canvas canvas) {
+    public void draw(Canvas canvas, Paint paint) {
         beginDraw();
-        drawContent(canvas);
+        drawContent(canvas, paint);
         endDraw();
     }
 
-    public abstract void drawContent(Canvas canvas);
+    public abstract void drawContent(Canvas canvas, Paint paint);
 
     @Override
     public String toString() {

@@ -1,6 +1,7 @@
 package com.whinc.widget.lsystem;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PointF;
 
 import com.whinc.widget.lsystem.display.AbsDisplay;
@@ -19,7 +20,7 @@ public class FractalPlantDisplay extends AbsDisplay {
     }
 
     @Override
-    public void drawContent(Canvas canvas) {
+    public void drawContent(Canvas canvas, Paint paint) {
         String pattern = getPattern();
         for (int i = 0; i < pattern.length(); ++i) {
             char c = pattern.charAt(i);
@@ -30,7 +31,7 @@ public class FractalPlantDisplay extends AbsDisplay {
             );
             switch (c) {
                 case 'F':
-                    canvas.drawLine(start.x, start.y, stop.x, stop.y, getPaint());
+                    canvas.drawLine(start.x, start.y, stop.x, stop.y, paint);
                     setPosition(canvas.getWidth(), canvas.getHeight(), stop);
                     break;
                 case '[':
