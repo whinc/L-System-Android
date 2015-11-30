@@ -22,6 +22,14 @@ public class DisplayActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+    public static void startActivity(@NonNull Context context, @NonNull Class<? extends Display> displayClass,
+                                     int iterations, float fractionPosX, float fractionPosY, int step,
+                                     float direction, float angle, int color) {
+        Intent intent = new Intent(context, DisplayActivity.class);
+        intent.putExtra(EXTRA_DISPLAY, displayClass);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

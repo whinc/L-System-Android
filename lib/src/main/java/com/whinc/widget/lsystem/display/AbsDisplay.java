@@ -2,24 +2,25 @@ package com.whinc.widget.lsystem.display;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PointF;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Created by Administrator on 2015/11/20.
  */
-public abstract class AbsDisplay implements Display{
+public abstract class AbsDisplay implements Display, Serializable{
     private Generator mGenerator;
     private float mDirection = -90.0f;
     private float mAngle = 45.0f;
-    private PointF mFractionPos = new PointF(0.5f, 0.5f);
+    private float mFractionPosX = 0.5f;
+    private float mFractionPosY = 0.5f;
     private float mStep = 10.0f;
     private int mIterations = 1;
     private List<Float> mDirectionStack = new LinkedList<>();
-    private List<PointF> mPositionStack = new LinkedList<>();
-    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private List<Float> mFractionPosXStack = new LinkedList<>();
+    private List<Float> mFractionPosYStack = new LinkedList<>();
     private final List mState = new LinkedList();
 
     public AbsDisplay(String axiom, String delimiter, String... rules) {
@@ -32,7 +33,8 @@ public abstract class AbsDisplay implements Display{
     private void beginDraw() {
         mState.clear();
         mState.add(mDirection);
-        mState.add(new PointF(mFractionPos.x, mFractionPos.y));
+        mState.add(mFractionPosX);
+        mState.add(mFractionPosY);
     }
 
     /**
@@ -40,7 +42,8 @@ public abstract class AbsDisplay implements Display{
      */
     private void endDraw() {
         mDirection = (float) mState.remove(0);
-        mFractionPos = (PointF) mState.remove(0);
+        mFractionPosX = (float) mState.remove(0);
+        mFractionPosY = (float) mState.remove(0);
     }
 
     @Override
@@ -73,24 +76,23 @@ public abstract class AbsDisplay implements Display{
     }
 
     @Override
-    public PointF getFractionPos() {
-        return mFractionPos;
+    public void setFractionPosX(float fraction) {
+        mFractionPosX = fraction;
     }
 
     @Override
-    public void setFractionPos(PointF fractionPos) {
-        mFractionPos = fractionPos;
+    public float getFractionPosX() {
+        return mFractionPosX;
     }
 
     @Override
-    public void setPosition(float w, float h, PointF pos) {
-        mFractionPos.x = pos.x / w;
-        mFractionPos.y = pos.y / h;
+    public void setFractionPosY(float fraction) {
+        mFractionPosY = fraction;
     }
 
     @Override
-    public PointF getPosition(float w, float h) {
-        return new PointF(mFractionPos.x * w, mFractionPos.y * h);
+    public float getFractionPosY() {
+        return mFractionPosY;
     }
 
     @Override
@@ -105,7 +107,7 @@ public abstract class AbsDisplay implements Display{
 
     @Override
     public void rotateDirection(float deltaDegree) {
-        mDirection -= deltaDegree;
+        mDirection += deltaDegree;
     }
 
     @Override
@@ -123,14 +125,16 @@ public abstract class AbsDisplay implements Display{
 
     @Override
     public void savePos() {
-        mPositionStack.add(new PointF(mFractionPos.x, mFractionPos.y));
+        mFractionPosXStack.add(mFractionPosX);
+        mFractionPosYStack.add(mFractionPosY);
     }
 
     public void restorePos() {
-        if (mPositionStack.isEmpty()) {
+        if (mFractionPosXStack.isEmpty() || mFractionPosYStack.isEmpty()) {
             throw new IllegalStateException("stack is empty! push and pop operation don't match");
         }
-        mFractionPos = mPositionStack.remove(mPositionStack.size() - 1);
+        mFractionPosX = mFractionPosXStack.remove(mFractionPosXStack.size() - 1);
+        mFractionPosY = mFractionPosYStack.remove(mFractionPosYStack.size() - 1);
     }
 
     @Override
@@ -164,6 +168,6 @@ public abstract class AbsDisplay implements Display{
     @Override
     public String toString() {
         return String.format("direction:%f, angle:%f, pos:(%f, %f), step:%f, iterations:%d",
-                mDirection, mAngle, mFractionPos.x, mFractionPos.y,mStep, mIterations);
+                mDirection, mAngle, mFractionPosX, mFractionPosY, mStep, mIterations);
     }
 }

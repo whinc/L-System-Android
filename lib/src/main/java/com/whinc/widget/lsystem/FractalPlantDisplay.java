@@ -2,7 +2,6 @@ package com.whinc.widget.lsystem;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PointF;
 
 import com.whinc.widget.lsystem.display.AbsDisplay;
 
@@ -24,15 +23,15 @@ public class FractalPlantDisplay extends AbsDisplay {
         String pattern = getPattern();
         for (int i = 0; i < pattern.length(); ++i) {
             char c = pattern.charAt(i);
-            PointF start = getPosition(canvas.getWidth(), canvas.getHeight());
-            PointF stop = new PointF(
-                    start.x + getStep() * (float)Math.cos(Math.toRadians((double) getDirection())),
-                    start.y + getStep() * (float)Math.sin(Math.toRadians((double) getDirection()))
-            );
+            float startX = getFractionPosX() * canvas.getWidth();
+            float startY = getFractionPosY() * canvas.getHeight();
+            float stopX = startX + getStep() * (float)Math.cos(Math.toRadians((double) getDirection()));
+            float stopY = startY + getStep() * (float)Math.sin(Math.toRadians((double) getDirection()));
             switch (c) {
                 case 'F':
-                    canvas.drawLine(start.x, start.y, stop.x, stop.y, paint);
-                    setPosition(canvas.getWidth(), canvas.getHeight(), stop);
+                    canvas.drawLine(startX, startY, stopX, stopY, paint);
+                    setFractionPosX(stopX / canvas.getWidth());
+                    setFractionPosY(stopY / canvas.getHeight());
                     break;
                 case '[':
                     saveDirection();

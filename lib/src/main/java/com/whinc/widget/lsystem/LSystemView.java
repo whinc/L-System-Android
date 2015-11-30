@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PointF;
 import android.os.Build;
-import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -69,10 +67,8 @@ public class LSystemView extends View{
         mDisplay.setAngle(typedArray.getFloat(R.styleable.LSystemView_ls_angle, mDisplay.getAngle()));
         mDisplay.setStep(typedArray.getFloat(R.styleable.LSystemView_ls_step, mDisplay.getStep()));
         mDisplay.setIterations(typedArray.getInteger(R.styleable.LSystemView_ls_iterations, mDisplay.getIterations()));
-        PointF pos = mDisplay.getFractionPos();
-        pos.x = typedArray.getFraction(R.styleable.LSystemView_ls_position_x, 1, 1, pos.x);
-        pos.y = typedArray.getFraction(R.styleable.LSystemView_ls_position_y, 1, 1, pos.y);
-        mDisplay.setFractionPos(pos);
+        mDisplay.setFractionPosX(typedArray.getFraction(R.styleable.LSystemView_ls_position_x, 1, 1, mDisplay.getFractionPosX()));
+        mDisplay.setFractionPosY(typedArray.getFraction(R.styleable.LSystemView_ls_position_y, 1, 1, mDisplay.getFractionPosY()));
 
         /* Paint properties */
         mPaint.setColor(typedArray.getColor(R.styleable.LSystemView_ls_paint_color, mPaint.getColor()));
@@ -113,19 +109,19 @@ public class LSystemView extends View{
     }
 
     public void setFractionPosX(float x) {
-        mDisplay.getFractionPos().x = x;
+        mDisplay.setFractionPosX(x);
     }
 
     public float getPositionX() {
-        return mDisplay.getFractionPos().x * getMeasuredWidth();
+        return mDisplay.getFractionPosX() * getMeasuredWidth();
     }
 
     public void setFractionPosY(float y) {
-        mDisplay.getFractionPos().y = y;
+        mDisplay.setFractionPosY(y);
     }
 
     public float getPositionY() {
-        return mDisplay.getFractionPos().y * getMeasuredHeight();
+        return mDisplay.getFractionPosY() * getMeasuredHeight();
     }
 
     public void setColor(int color) {

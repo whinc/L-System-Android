@@ -2,32 +2,17 @@ package com.whinc.widget.lsystem.display;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PointF;
 import android.support.annotation.NonNull;
-
-import java.io.Serializable;
 
 /**
  * Created by Administrator on 2015/11/20.
  */
-public interface Display extends Serializable {
-    /**
-     * Format: fraction
-     * <p>Set start position of drawing.</p>
-     * @param fractionPos
-     */
-    void setFractionPos(PointF fractionPos);
+public interface Display {
 
-    void setPosition(float w, float h, PointF pos);
-
-    /**
-     * Format: fraction
-     * <p>Get start position of drawing.</p>
-     * @return
-     */
-    PointF getFractionPos();
-
-    PointF getPosition(float w, float h);
+    void setFractionPosX(float fraction);
+    float getFractionPosX();
+    void setFractionPosY(float fraction);
+    float getFractionPosY();
 
     /**
      * <p>Set draw direction.</p>
