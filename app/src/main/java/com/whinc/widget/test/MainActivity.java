@@ -1,5 +1,6 @@
 package com.whinc.widget.test;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
@@ -55,6 +56,7 @@ public class MainActivity extends BaseActivity {
             Display display = new FractalPlantDisplay();
             display.setAngle(20);
             display.setIterations(5);
+            display.setColor(Color.argb(0xFF, 0x00, 0xA0, 0x00));
             DisplayActivity.startActivity(this, display);
             return true;
         }

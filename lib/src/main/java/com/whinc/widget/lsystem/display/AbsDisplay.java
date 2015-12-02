@@ -3,6 +3,9 @@ package com.whinc.widget.lsystem.display;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,10 +20,11 @@ public abstract class AbsDisplay implements Display {
     private float mFractionPosY = 0.5f;
     private float mStep = 10.0f;
     private int mIterations = 1;
-    private List<Float> mDirectionStack = new LinkedList<>();
-    private List<Float> mFractionPosXStack = new LinkedList<>();
-    private List<Float> mFractionPosYStack = new LinkedList<>();
+    private final List<Float> mDirectionStack = new LinkedList<>();
+    private final List<Float> mFractionPosXStack = new LinkedList<>();
+    private final List<Float> mFractionPosYStack = new LinkedList<>();
     private final List mState = new LinkedList();
+    private transient Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     public AbsDisplay(String axiom, String delimiter, String... rules) {
         mGenerator = new GeneratorImpl(axiom, delimiter, rules);
@@ -65,6 +69,16 @@ public abstract class AbsDisplay implements Display {
     }
 
     @Override
+    public void setColor(int color) {
+        mPaint.setColor(color);
+    }
+
+    @Override
+    public int getColor() {
+        return mPaint.getColor();
+    }
+
+    @Override
     public float getAngle() {
         return mAngle;
     }
@@ -75,22 +89,22 @@ public abstract class AbsDisplay implements Display {
     }
 
     @Override
-    public void setFractionPosX(float fraction) {
+    public void setPercentX(float fraction) {
         mFractionPosX = fraction;
     }
 
     @Override
-    public float getFractionPosX() {
+    public float getPercentX() {
         return mFractionPosX;
     }
 
     @Override
-    public void setFractionPosY(float fraction) {
+    public void setPercentY(float fraction) {
         mFractionPosY = fraction;
     }
 
     @Override
-    public float getFractionPosY() {
+    public float getPercentY() {
         return mFractionPosY;
     }
 
@@ -156,13 +170,24 @@ public abstract class AbsDisplay implements Display {
         mIterations = Math.max(0, iterations);
     }
 
-    public void draw(Canvas canvas, Paint paint) {
+    public void draw(Canvas canvas) {
         beginDraw();
-        drawContent(canvas, paint);
+        drawContent(canvas, mPaint);
         endDraw();
     }
 
     public abstract void drawContent(Canvas canvas, Paint paint);
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        out.writeInt(getColor());
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        setColor(in.readInt());
+    }
 
     @Override
     public String toString() {

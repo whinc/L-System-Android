@@ -1,7 +1,6 @@
 package com.whinc.widget.lsystem.display;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
@@ -11,21 +10,25 @@ import java.io.Serializable;
  */
 public interface Display extends Serializable{
 
-    void setFractionPosX(float fraction);
-    float getFractionPosX();
-    void setFractionPosY(float fraction);
-    float getFractionPosY();
+    /**
+     * <p>Set percentage of x position on canvas.</p>
+     * @param fraction [0.0f, 1.0f]
+     */
+    void setPercentX(float fraction);
+    float getPercentX();
+
+    /**
+     * <p>Set percentage of y position on canvas.</p>
+     * @param fraction [0.0f, 1.0f]
+     */
+    void setPercentY(float fraction);
+    float getPercentY();
 
     /**
      * <p>Set draw direction.</p>
      * @param degree The degree between current direction and x-axis along the counter clockwise direction.
      */
     void setDirection(float degree);
-
-    /**
-     * <p>Get current direction.</p>
-     * @return The degree between current direction and x-axis along the counter clockwise direction.
-     */
     float getDirection();
 
     /**
@@ -33,11 +36,6 @@ public interface Display extends Serializable{
      * @param degree
      */
     void setAngle(float degree);
-
-    /**
-     * <p>Get rotation angle.</p>
-     * @return
-     */
     float getAngle();
 
     /**
@@ -45,11 +43,6 @@ public interface Display extends Serializable{
      * @param length
      */
     void setStep(float length);
-
-    /**
-     * <p>Get step length.</p>
-     * @return
-     */
     float getStep();
 
     /**
@@ -57,12 +50,14 @@ public interface Display extends Serializable{
      * @param iterations
      */
     void setIterations(int iterations);
+    int getIterations();
 
     /**
-     * <p>Get iterations of L-System.</p>
-     * @return
+     * <p>Set the color of line segment.</p>
+     * @param color argb format
      */
-    int getIterations();
+    void setColor(int color);
+    int getColor();
 
     /**
      * <p>Rotate draw direction based on current direction.</p>
@@ -110,5 +105,5 @@ public interface Display extends Serializable{
      * <p>Draw L-System on argument specified canvas.</p>
      * @param canvas canvas that will draw on it.
      */
-    void draw(@NonNull Canvas canvas, @NonNull Paint paint);
+    void draw(@NonNull Canvas canvas);
 }

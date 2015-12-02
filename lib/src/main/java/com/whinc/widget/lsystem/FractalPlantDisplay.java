@@ -23,15 +23,15 @@ public class FractalPlantDisplay extends AbsDisplay {
         String pattern = getPattern();
         for (int i = 0; i < pattern.length(); ++i) {
             char c = pattern.charAt(i);
-            float startX = getFractionPosX() * canvas.getWidth();
-            float startY = getFractionPosY() * canvas.getHeight();
+            float startX = getPercentX() * canvas.getWidth();
+            float startY = getPercentY() * canvas.getHeight();
             float stopX = startX + getStep() * (float)Math.cos(Math.toRadians((double) getDirection()));
             float stopY = startY + getStep() * (float)Math.sin(Math.toRadians((double) getDirection()));
             switch (c) {
                 case 'F':
                     canvas.drawLine(startX, startY, stopX, stopY, paint);
-                    setFractionPosX(stopX / canvas.getWidth());
-                    setFractionPosY(stopY / canvas.getHeight());
+                    setPercentX(stopX / canvas.getWidth());
+                    setPercentY(stopY / canvas.getHeight());
                     break;
                 case '[':
                     saveDirection();

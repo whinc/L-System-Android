@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -20,7 +19,6 @@ public class LSystemView extends View{
     public static final String TAG = LSystemView.class.getSimpleName();
 
     private Display mDisplay = null;
-    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     public LSystemView(Context context) {
         super(context);
@@ -67,11 +65,9 @@ public class LSystemView extends View{
         mDisplay.setAngle(typedArray.getFloat(R.styleable.LSystemView_ls_angle, mDisplay.getAngle()));
         mDisplay.setStep(typedArray.getFloat(R.styleable.LSystemView_ls_step, mDisplay.getStep()));
         mDisplay.setIterations(typedArray.getInteger(R.styleable.LSystemView_ls_iterations, mDisplay.getIterations()));
-        mDisplay.setFractionPosX(typedArray.getFraction(R.styleable.LSystemView_ls_position_x, 1, 1, mDisplay.getFractionPosX()));
-        mDisplay.setFractionPosY(typedArray.getFraction(R.styleable.LSystemView_ls_position_y, 1, 1, mDisplay.getFractionPosY()));
-
-        /* Paint properties */
-        mPaint.setColor(typedArray.getColor(R.styleable.LSystemView_ls_paint_color, mPaint.getColor()));
+        mDisplay.setPercentX(typedArray.getFraction(R.styleable.LSystemView_ls_position_x, 1, 1, mDisplay.getPercentX()));
+        mDisplay.setPercentY(typedArray.getFraction(R.styleable.LSystemView_ls_position_y, 1, 1, mDisplay.getPercentY()));
+        mDisplay.setColor(typedArray.getColor(R.styleable.LSystemView_ls_paint_color, mDisplay.getColor()));
 
         typedArray.recycle();
     }
@@ -91,7 +87,7 @@ public class LSystemView extends View{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (mDisplay != null) {
-            mDisplay.draw(canvas, mPaint);
+            mDisplay.draw(canvas);
         }
     }
 }

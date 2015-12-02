@@ -28,15 +28,15 @@ public class PythagorasTreeDisplay extends AbsDisplay {
         Log.i(TAG, String.format("canvas size:(%d, %d)", canvas.getWidth(), canvas.getHeight()));
         for (int i = 0; i < pattern.length(); ++i) {
             char c = pattern.charAt(i);
-            float startX = getFractionPosX() * canvas.getWidth();
-            float startY = getFractionPosY() * canvas.getHeight();
+            float startX = getPercentX() * canvas.getWidth();
+            float startY = getPercentY() * canvas.getHeight();
             float stopX = startX + getStep() * (float)Math.cos(Math.toRadians((double) getDirection()));
             float stopY = startY + getStep() * (float)Math.sin(Math.toRadians((double) getDirection()));
             switch (c) {
                 case '1':
                     canvas.drawLine(startX, startY, stopX, stopY, paint);
-                    setFractionPosX(stopX / canvas.getWidth());
-                    setFractionPosY(stopY / canvas.getHeight());
+                    setPercentX(stopX / canvas.getWidth());
+                    setPercentY(stopY / canvas.getHeight());
                     break;
                 case '0':
                     canvas.drawLine(startX, startY, stopX, stopY, paint);
