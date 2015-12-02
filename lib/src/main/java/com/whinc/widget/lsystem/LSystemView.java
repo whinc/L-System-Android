@@ -8,6 +8,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.whinc.widget.lsystem.display.Display;
@@ -19,6 +20,8 @@ public class LSystemView extends View{
     public static final String TAG = LSystemView.class.getSimpleName();
 
     private Display mDisplay = null;
+    private float mOldX = 0.0f;
+    private float mOldY = 0.0f;
 
     public LSystemView(Context context) {
         super(context);
@@ -70,6 +73,7 @@ public class LSystemView extends View{
         mDisplay.setColor(typedArray.getColor(R.styleable.LSystemView_ls_paint_color, mDisplay.getColor()));
 
         typedArray.recycle();
+
     }
 
     public void setDisplay(@NonNull Display display) {
@@ -89,5 +93,29 @@ public class LSystemView extends View{
         if (mDisplay != null) {
             mDisplay.draw(canvas);
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mOldX = event.getX();
+                mOldY = event.getY();
+                return true;
+            case MotionEvent.ACTION_MOVE:
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                float x = mDisplay.getPercentX() * getMeasuredWidth();
+                float y = mDisplay.getPercentY() * getMeasuredHeight();
+                float deltaX = event.getX() - mOldX;
+                float deltaY = event.getY() - mOldY;
+                mDisplay.setPercentX((x + deltaX) / getMeasuredWidth());
+                mDisplay.setPercentY((y + deltaY) / getMeasuredHeight());
+                invalidate();
+                postInvalidate();
+                break;
+        }
+        return super.onTouchEvent(event);
     }
 }
