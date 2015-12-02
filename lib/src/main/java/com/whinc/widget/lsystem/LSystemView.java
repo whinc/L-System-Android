@@ -76,77 +76,15 @@ public class LSystemView extends View{
         typedArray.recycle();
     }
 
-    public float getDirection() {
-        return mDisplay.getDirection();
-    }
-
-    public void setDirection(float degree) {
-        mDisplay.setDirection(degree);
-    }
-
-    public float getAngle() {
-        return mDisplay.getAngle();
-    }
-
-    public void setAngle(float degree) {
-        mDisplay.setAngle(degree);
-    }
-
-    public float getStep() {
-        return mDisplay.getStep();
-    }
-
-    public void setStep(float length) {
-        mDisplay.setStep(length);
-    }
-
-    public int getIterations() {
-        return mDisplay.getIterations();
-    }
-
-    public void setIterations(int n) {
-        mDisplay.setIterations(n);
-    }
-
-    public void setFractionPosX(float x) {
-        mDisplay.setFractionPosX(x);
-    }
-
-    public float getPositionX() {
-        return mDisplay.getFractionPosX() * getMeasuredWidth();
-    }
-
-    public void setFractionPosY(float y) {
-        mDisplay.setFractionPosY(y);
-    }
-
-    public float getPositionY() {
-        return mDisplay.getFractionPosY() * getMeasuredHeight();
-    }
-
-    public void setColor(int color) {
-        mPaint.setColor(color);
-    }
-
-    public int getColor() {
-        return mPaint.getColor();
-    }
-
-    public boolean setDisplayClass(@NonNull Class<? extends Display> cls) {
-        boolean r = true;
-        try {
-            Display display = cls.newInstance();
+    public void setDisplay(@NonNull Display display) {
+        if (mDisplay != display) {
             mDisplay = display;
             invalidate();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            r = false;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            r = false;
         }
+    }
 
-        return r;
+    public Display display() {
+        return mDisplay;
     }
 
     @Override

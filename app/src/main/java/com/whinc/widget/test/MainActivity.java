@@ -48,10 +48,14 @@ public class MainActivity extends BaseActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_1) {
-            DisplayActivity.startActivity(this, PythagorasTreeDisplay.class);
+            Display display = new PythagorasTreeDisplay();
+            DisplayActivity.startActivity(this, display);
             return true;
         } else if (id == R.id.action_2) {
-            DisplayActivity.startActivity(this, FractalPlantDisplay.class);
+            Display display = new FractalPlantDisplay();
+            display.setAngle(20);
+            display.setIterations(5);
+            DisplayActivity.startActivity(this, display);
             return true;
         }
 

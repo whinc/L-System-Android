@@ -2,7 +2,6 @@ package com.whinc.widget.test;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Menu;
@@ -14,19 +13,11 @@ import com.whinc.widget.lsystem.display.Display;
 public class DisplayActivity extends BaseActivity {
     private static final String EXTRA_DISPLAY = "extra_display";
     private LSystemView mLSystemView;
-    private Class<? extends Display> mDisplayCls;
+    private Display mDisplay = null;
 
-    public static void startActivity(@NonNull Context context, @NonNull Class<? extends Display> displayClass) {
+    public static void startActivity(@NonNull Context context, @NonNull Display display) {
         Intent intent = new Intent(context, DisplayActivity.class);
-        intent.putExtra(EXTRA_DISPLAY, displayClass);
-        context.startActivity(intent);
-    }
-
-    public static void startActivity(@NonNull Context context, @NonNull Class<? extends Display> displayClass,
-                                     int iterations, float fractionPosX, float fractionPosY, int step,
-                                     float direction, float angle, int color) {
-        Intent intent = new Intent(context, DisplayActivity.class);
-        intent.putExtra(EXTRA_DISPLAY, displayClass);
+        intent.putExtra(EXTRA_DISPLAY, display);
         context.startActivity(intent);
     }
 
@@ -36,16 +27,22 @@ public class DisplayActivity extends BaseActivity {
         setContentView(R.layout.activity_display);
 
         if (getIntent() == null
-                || (mDisplayCls = (Class<? extends Display>) getIntent().getSerializableExtra(EXTRA_DISPLAY)) == null) {
+                || (mDisplay = (Display) getIntent().getSerializableExtra(EXTRA_DISPLAY)) == null) {
             throw new IllegalArgumentException("Invalid argument");
         }
 
-        mLSystemView = $(R.id.display_lsystem_view);
-        mLSystemView.setDisplayClass(mDisplayCls);
-        mLSystemView.setColor(Color.GREEN);
-        mLSystemView.setIterations(4);
-        mLSystemView.setFractionPosX(0.5f);
-        mLSystemView.setFractionPosY(0.5f);
+        mLSystemView = (LSystemView) findViewById(R.id.display_lsystem_view);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mLSystemView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mLSystemView.setDisplay(mDisplay);
+            }
+        }, 500);
     }
 
     @Override

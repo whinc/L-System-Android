@@ -3,14 +3,13 @@ package com.whinc.widget.lsystem.display;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Created by Administrator on 2015/11/20.
  */
-public abstract class AbsDisplay implements Display, Serializable{
+public abstract class AbsDisplay implements Display {
     private Generator mGenerator;
     private float mDirection = -90.0f;
     private float mAngle = 45.0f;

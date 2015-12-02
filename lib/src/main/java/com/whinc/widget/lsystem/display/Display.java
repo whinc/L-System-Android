@@ -4,10 +4,12 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2015/11/20.
  */
-public interface Display {
+public interface Display extends Serializable{
 
     void setFractionPosX(float fraction);
     float getFractionPosX();
