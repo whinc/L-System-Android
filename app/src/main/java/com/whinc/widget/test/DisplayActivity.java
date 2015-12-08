@@ -37,12 +37,7 @@ public class DisplayActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mLSystemView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mLSystemView.setDisplay(mDisplay);
-            }
-        }, 500);
+        mLSystemView.setDisplay(mDisplay);
     }
 
     @Override

@@ -20,22 +20,44 @@ public abstract class AbsDisplay implements Display {
     private float mFractionPosY = 0.5f;
     private float mStep = 10.0f;
     private int mIterations = 1;
-    private final List<Float> mDirectionStack = new LinkedList<>();
-    private final List<Float> mFractionPosXStack = new LinkedList<>();
-    private final List<Float> mFractionPosYStack = new LinkedList<>();
-    private final List mState = new LinkedList();
-    private transient Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    /* Don't serialize these fields */
+    private transient List<Float> mDirectionStack;
+    private transient List<Float> mFractionPosXStack;
+    private transient List<Float> mFractionPosYStack;
+    private transient List mState;
+    private transient Paint mPaint;
 
     public AbsDisplay(String axiom, String delimiter, String... rules) {
         mGenerator = new GeneratorImpl(axiom, delimiter, rules);
+        init();
+    }
+
+    private void init() {
+        mDirectionStack = new LinkedList<>();
+        mFractionPosXStack = new LinkedList<>();
+        mFractionPosYStack = new LinkedList<>();
+        mState = new LinkedList();
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    }
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        out.writeInt(getColor());
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        init();
+        setColor(in.readInt());
     }
 
     /**
      * <P>Save state</P>
      */
-    private void beginDraw() {
+    private void storeState() {
         mState.clear();
         mState.add(mDirection);
+        mState.add(mAngle);
         mState.add(mFractionPosX);
         mState.add(mFractionPosY);
     }
@@ -43,8 +65,9 @@ public abstract class AbsDisplay implements Display {
     /**
      * <P>restore state</P>
      */
-    private void endDraw() {
+    private void restoreState() {
         mDirection = (float) mState.remove(0);
+        mAngle = (float) mState.remove(0);
         mFractionPosX = (float) mState.remove(0);
         mFractionPosY = (float) mState.remove(0);
     }
@@ -171,23 +194,12 @@ public abstract class AbsDisplay implements Display {
     }
 
     public void draw(Canvas canvas) {
-        beginDraw();
+        storeState();
         drawContent(canvas, mPaint);
-        endDraw();
+        restoreState();
     }
 
     public abstract void drawContent(Canvas canvas, Paint paint);
-
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
-        out.writeInt(getColor());
-    }
-
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        setColor(in.readInt());
-    }
 
     @Override
     public String toString() {

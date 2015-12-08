@@ -8,4 +8,13 @@
         android:id="@+id/display_lsystem_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:id="@+id/setting_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        >
+    </LinearLayout>
 </RelativeLayout>
