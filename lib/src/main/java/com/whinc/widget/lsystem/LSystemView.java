@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.whinc.util.Log;
 import com.whinc.widget.lsystem.display.Display;
 
 /**
@@ -49,28 +50,24 @@ public class LSystemView extends View{
 
         // Instantiate Display
         String className = typedArray.getString(R.styleable.LSystemView_ls_display_class);
+        if (!TextUtils.isEmpty(className)) {
             try {
-                if (TextUtils.isEmpty(className)) {
-                    mDisplay = PythagorasTreeDisplay.class.newInstance();
-                } else {
-                    mDisplay = (Display) Class.forName(className).newInstance();
-                }
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                mDisplay = (Display) Class.forName(className).newInstance();
+            } catch (Exception e) {
+                Log.e(TAG, "", e);
             }
+        }
 
         /* Display properties */
-        mDisplay.setDirection(typedArray.getFloat(R.styleable.LSystemView_ls_direction, mDisplay.getDirection()));
-        mDisplay.setAngle(typedArray.getFloat(R.styleable.LSystemView_ls_angle, mDisplay.getAngle()));
-        mDisplay.setStep(typedArray.getFloat(R.styleable.LSystemView_ls_step, mDisplay.getStep()));
-        mDisplay.setIterations(typedArray.getInteger(R.styleable.LSystemView_ls_iterations, mDisplay.getIterations()));
-        mDisplay.setPercentX(typedArray.getFraction(R.styleable.LSystemView_ls_position_x, 1, 1, mDisplay.getPercentX()));
-        mDisplay.setPercentY(typedArray.getFraction(R.styleable.LSystemView_ls_position_y, 1, 1, mDisplay.getPercentY()));
-        mDisplay.setColor(typedArray.getColor(R.styleable.LSystemView_ls_paint_color, mDisplay.getColor()));
+        if (mDisplay != null) {
+            mDisplay.setDirection(typedArray.getFloat(R.styleable.LSystemView_ls_direction, mDisplay.getDirection()));
+            mDisplay.setAngle(typedArray.getFloat(R.styleable.LSystemView_ls_angle, mDisplay.getAngle()));
+            mDisplay.setStep(typedArray.getFloat(R.styleable.LSystemView_ls_step, mDisplay.getStep()));
+            mDisplay.setIterations(typedArray.getInteger(R.styleable.LSystemView_ls_iterations, mDisplay.getIterations()));
+            mDisplay.setPercentX(typedArray.getFraction(R.styleable.LSystemView_ls_position_x, 1, 1, mDisplay.getPercentX()));
+            mDisplay.setPercentY(typedArray.getFraction(R.styleable.LSystemView_ls_position_y, 1, 1, mDisplay.getPercentY()));
+            mDisplay.setColor(typedArray.getColor(R.styleable.LSystemView_ls_paint_color, mDisplay.getColor()));
+        }
 
         typedArray.recycle();
 

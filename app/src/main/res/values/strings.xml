@@ -1,9 +1,14 @@
 <resources>
-    <string name="app_name">LSystem</string>
+    <string name="app_name">L-System</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_display">DisplayActivity</string>
     <string name="action_1">action 1</string>
     <string name="action_2">action 2</string>
-
-    <string name="hello_world">Hello world!</string>
+    <string name="label_axiom">Axiom:</string>
+    <string name="label_rules">Rules:</string>
+    <string name="label_iterations">Iterations:</string>
+    <string name="label_color">Color:</string>
+    <string name="label_bkg_color">Background:</string>
+    <string name="label_apply">Apply</string>
+    <string name="label_cancel">Cancel</string>
 </resources>

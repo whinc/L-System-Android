@@ -21,7 +21,8 @@
         </activity>
         <activity
             android:name=".DisplayActivity"
-            android:label="@string/title_activity_display" >
+            android:label="@string/title_activity_display"
+            >
         </activity>
     </application>
 

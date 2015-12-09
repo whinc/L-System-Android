@@ -48,14 +48,14 @@ public class MainActivity extends BaseActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_1) {
+        if (id == R.id.action_setting) {
             Display display = new PythagorasTreeDisplay();
             DisplayActivity.startActivity(this, display);
             return true;
         } else if (id == R.id.action_2) {
             Display display = new FractalPlantDisplay();
             display.setAngle(20);
-            display.setIterations(5);
+            display.setIterations(4);
             display.setColor(Color.argb(0xFF, 0x00, 0xA0, 0x00));
             DisplayActivity.startActivity(this, display);
             return true;
